@@ -8,6 +8,8 @@ using namespace std;
 void printQueue(std::deque<Car> q);
 
 int main() {
+    //randomise seed for random number generation using current time
+    srand(time(0));
     //define queue of cars and populate with 2 cars
     const int START = 2;
     deque<Car> carQueue;
@@ -19,6 +21,30 @@ int main() {
     cout << "Initial queue:" << endl;
     printQueue(carQueue);
 
+    //while loop that runs until queue is empty
+    int t = 1;
+    while (!carQueue.empty()) {
+        //print current time period
+        cout << endl << "Time:" << t << endl;
+        //55% chance of first car in the queue leaving, 45% chance of a new car arriving at the back
+        if (rand() % 100 < 55) {
+            cout << "Car paid: ";
+            carQueue.front().print();
+            carQueue.pop_front();
+        }
+        else {
+            carQueue.push_back(Car());
+            cout << "New car arrived: ";
+            carQueue.back().print();
+        }
+        //print current queue
+        cout << "Current queue:" << endl;
+        printQueue(carQueue);
+        //increment time period
+        t++;
+            
+    }
+
     return 0;
 }
 
@@ -26,5 +52,8 @@ int main() {
 void printQueue(std::deque<Car> q) {
     for (Car c : q) {
         c.print();
+    }
+    if (q.empty()) {
+        cout << "[Empty]" << endl;
     }
 }
