@@ -1,4 +1,4 @@
-//Ezzat Mohamadein | ComSc 210 | Lab 32
+//Ezzat Mohamadein | ComSc 210 | Lab 33
 #include <iostream>
 #include <deque>
 #include "Car.h"
@@ -6,12 +6,16 @@ using namespace std;
 
 //print queue function prototype
 void printQueue(std::deque<Car> q);
+//define constants
+const int START = 2;
+const int PAY = 46;
+const int JOIN = 39;
+const int SHIFT = 15;
 
 int main() {
     //randomise seed for random number generation using current time
     srand(time(0));
     //define queue of cars and populate with 2 cars
-    const int START = 2;
     deque<Car> carQueue;
     for (int i = 0; i < START; i++) {
         carQueue.push_back(Car());
