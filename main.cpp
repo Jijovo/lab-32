@@ -31,16 +31,34 @@ int main() {
     cout << "Initial queues:" << endl;
     printQueues(carQueues);
 
-    //test popping,pushing, and printing
-    cout << endl << "Testing queue operations:" << endl;
-    carQueues[0].pop_front();
-    carQueues[1].push_back(Car());
-    printQueue(carQueues[0]);
-    printQueue(carQueues[1]);
-    //while loop that runs until 20 time periods have passed
+    //loop that runs until 20 time periods have passed
     int t = 1;
-    
-    
+    while (t <= PERIODS) {
+        cout << "Time period " << t << ":" << endl;
+        //determine operations (1 per lane per time period) and carry them out
+        for (int i = 0; i < carQueues.size(); i++) {
+            int operation = rand() % 100 + 1; //random number between 1 and 100
+            cout << "Lane " << i + 1 << ": ";
+            if (operation <= 50) { //paying operation
+                if (!carQueues[i].empty()) {
+                    cout << "Car paid: ";
+                    carQueues[i].front().print(); //print first car in lane
+                    carQueues[i].pop_front(); //remove first car in lane
+                }
+            }
+            else { //joining operation
+                cout << "Car joined: ";
+                Car newCar; //create new car object
+                newCar.print(); //print new car
+                carQueues[i].push_back(newCar); //add new car to back of lane
+            }
+        
+        }
+        //print queues after each time period
+        printQueues(carQueues);
+        t++;
+        
+    }
 
     return 0;
 }
@@ -57,7 +75,8 @@ void printQueue(std::deque<Car> q) {
 //print queue function definition for array of queues
 void printQueues(array<deque<Car>, 4> q) {
     for (int i = 0; i < q.size(); i++) {
-        cout << "Queue " << i + 1 << ":" << endl;
+        cout << "Lane " << i + 1 << ":" << endl;
         printQueue(q[i]);
+        cout << endl;
     }
 }
