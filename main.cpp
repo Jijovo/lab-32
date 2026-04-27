@@ -34,27 +34,42 @@ int main() {
     //loop that runs until 20 time periods have passed
     int t = 1;
     while (t <= PERIODS) {
-        cout << "Time period " << t << ":" << endl;
+        cout << "Time period " << t << ":" << endl << endl << "||Operations||" << endl;
         //determine operations (1 per lane per time period) and carry them out
         for (int i = 0; i < carQueues.size(); i++) {
             int operation = rand() % 100 + 1; //random number between 1 and 100
             cout << "Lane " << i + 1 << ": ";
-            if (operation <= 50) { //paying operation
+            if (operation <= PAY) { //paying operation
                 if (!carQueues[i].empty()) {
                     cout << "Car paid: ";
                     carQueues[i].front().print(); //print first car in lane
                     carQueues[i].pop_front(); //remove first car in lane
                 }
+                else {
+                    cout << "No cars to pay." << endl;
+                }
             }
-            else { //joining operation
+            else if (operation <= PAY + JOIN) { //joining operation
                 cout << "Car joined: ";
                 Car newCar; //create new car object
                 newCar.print(); //print new car
                 carQueues[i].push_back(newCar); //add new car to back of lane
             }
+            else { //shifting operation
+                if (!carQueues[i].empty()) {
+                    cout << "Car shifted: ";
+                    carQueues[i].back().print(); //print last car in lane
+                    carQueues[i].push_back(carQueues[i].back()); //add last car to back of lane
+                    carQueues[i].pop_back(); //remove last car from front of lane
+                }
+                else {
+                    cout << "No cars to shift." << endl;
+                }
+            }
         
         }
         //print queues after each time period
+        cout << endl << endl << "||Queues||" << endl;
         printQueues(carQueues);
         t++;
         
